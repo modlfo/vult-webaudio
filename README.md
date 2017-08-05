@@ -1,5 +1,9 @@
 # Minimal example using Vult with WebAudio
 
+Vult is a simple domain specific language with features that simplify developing of DSP algorithms. The generated code (C/++, Js and Lua) can be run efficiently on many platforms and microcontrollers.
+
+You can find more information in the [Main Site](https://modlfo.github.io/vult/) and the [GitHub repository](https://github.com/modlfo/vult).
+
 This example shows how to embed the Vult compiler in a Web page and generate a [ScriptProcessorNode](https://developer.mozilla.org/en-US/docs/Web/API/ScriptProcessorNode) to execute your Vult code with [WebAudio](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) in a browser.
 
 The full code is in the [`index.html`](https://github.com/modlfo/vult-webaudio/blob/gh-pages/index.html)
