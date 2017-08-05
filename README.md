@@ -2,9 +2,9 @@
 
 This example shows how to embed the Vult compiler in a Web page and generate a [ScriptProcessorNode](https://developer.mozilla.org/en-US/docs/Web/API/ScriptProcessorNode) to execute your Vult code with [WebAudio](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) in a browser.
 
-The full code is in the `index.html`
+The full code is in the [`index.html`](https://github.com/modlfo/vult-webaudio/blob/gh-pages/index.html)
 
-You can check the results in this link http://modlfo.github.io/vult
+You can check the results in this link https://modlfo.github.io/vult-webaudio/
 
 ## Embedding Vult
 
