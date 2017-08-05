@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title></title>
+   <meta name="description" content="">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<!-- Loads Vult from the website -->
+
+<script src="https://modlfo.github.io/vult/javascripts/vultweb.js"></script>
+
+
+<!-- The play button -->
+
+<body>
+   <button id="button"> play </button>
+</body>
+
+<p> This is the code that is gonna be executed: </p>
+
+<!-- Box to display the code -->
+
+<code id="viewer" style="white-space: pre">
+
+</code>
+
+
+<script>
+   // Define the URL of the Vult code we are playing
+   var vultFile = "https://raw.githubusercontent.com/modlfo/vult/master/examples/web/selfplay.vult"
+
+   // Request a file from a URL
+   function loadFile(url, callback) {
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function () {
+         if (request.readyState != 4) return;
+         if (request.status != 200) {
+            return;
+         }
+         var resp = request.responseText;
+         callback(resp);
+      }
+      request.open('GET', url, true);
+      request.send();
+   }
+
+   // Receives the loaded Vult code and prepares the audio
+   function generateJsAndPlay(code) {
+      // Gets the <code> box to display the code
+      var viewer = document.getElementById('viewer');
+      // Gets the play button
+      var playButton = document.querySelector('button');
+
+      // Generate the javascript code
+      var result = vult.generateJs([
+            // the input is a list of filenames and the code itself
+            {
+               file: 'test.vult',
+               code: code
+            }
+         ],
+         // the options are the output name and the template
+         {
+            output: "Test",
+            template: 'webaudio'
+         });
+
+      // If the results have a member with name 'code' the code was correctly generated
+      if (result[0].code != null) {
+         // Show the code in the box
+         viewer.innerHTML = code;
+
+         // Evaluate the generated code, this will give us back a function
+         var vultProcessor = eval(result[0].code);
+
+         // Prepares the audio
+         var audioContext = new AudioContext();
+         // The returned function requires as argument the audioContext
+         var vultProcessorNode = vultProcessor(audioContext);
+         // Creates a trivial source
+         source = audioContext.createBufferSource();
+
+         // Define the actions when the play button is pressed
+         playButton.onclick = function () {
+            // connect the souce to the vultProcessor
+            source.connect(vultProcessorNode);
+            // connect the vult Processor to the audio output
+            vultProcessorNode.connect(audioContext.destination);
+            // start the audio
+            source.start();
+         }
+      }
+      // if something went wrong when generating the code, display the error
+      else {
+         viewer.innerHTML = result[0].msg;
+      }
+   }
+
+   // Loads the file and prepares it for playing
+   loadFile(vultFile, generateJsAndPlay);
+</script>
+
+</html>
